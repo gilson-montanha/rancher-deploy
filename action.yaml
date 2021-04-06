@@ -1,0 +1,49 @@
+name: 'Rancher cli github-action'
+description: 'Rancher cli to deploy applications'
+inputs:
+  uri:
+    description: 'URI of the rancher server'
+    required: true
+    default: 'https://rancher.local'
+  token:
+    description: 'Token to access the rancher API'
+    required: true
+    default: 'TOKENHERE'
+  context:
+    description: 'The project id inside Rancher'
+    required: true
+    default: 'c-d521pq:p-5mgym'
+  catlog_name:
+    description: 'Name of the helm repository'
+    required: true
+    default: 'rancher'
+  app_options:
+    description: 'install | upgrade | delete'
+    required: true
+    default: 'install'
+  values_file:
+    description: 'File with helm answers'
+    required: false
+    default: 'values.yaml'
+  values_inline:
+    description: 'Values you can set in-line'
+    required: false
+
+outputs:
+  context_name:
+    description: 'The name of the selected context/project'
+  command_name:
+    description: 'The output of the command'
+
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+  args:
+    - ${{ inputs.uri }}
+    - ${{ inputs.token }}
+    - ${{ inputs.context }}
+    - ${{ inputs.catalog_name }}
+    - ${{ inputs.app_options }}
+    - ${{ inputs.values_file }}
+    - ${{ inputs.values_inline }}
+
